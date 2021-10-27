@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	s "github.com/0l1v3rr/go-search/internal/search"
@@ -58,8 +59,24 @@ func main() {
 		} else if strings.HasPrefix(input, "show options") {
 			u.ShowOptions(searchTerm, pages)
 		} else if strings.HasPrefix(input, "set terms") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
 			searchTerm = strings.Join(args[2:], " ")
 			fmt.Printf("terms => %s\n", searchTerm)
+		} else if strings.HasPrefix(input, "set pages") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			converted, err := strconv.Atoi(args[2])
+			if err != nil {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			pages = converted
+			fmt.Printf("pages => %v\n", pages)
 		} else {
 			printError("Unknown command.")
 		}
