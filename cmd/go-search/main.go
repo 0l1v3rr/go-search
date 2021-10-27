@@ -16,6 +16,7 @@ var (
 )
 
 func main() {
+	u.Clear()
 	u.Motd()
 	reader := bufio.NewReader(os.Stdin)
 
@@ -24,6 +25,9 @@ func main() {
 		input, _ := reader.ReadString('\n')
 		input = strings.TrimSuffix(input, "\n")
 		input = strings.ToLower(input)
+		fmt.Print(string("\033[0m"))
+
+		args := strings.Split(input, " ")
 
 		if strings.HasPrefix(input, "ex") {
 			break
@@ -40,6 +44,7 @@ func main() {
 				return
 			}
 
+			fmt.Println()
 			for _, res := range results {
 				fmt.Print(string("\033[34;1m"), "[")
 				if res.Rank < 10 {
@@ -49,8 +54,14 @@ func main() {
 				fmt.Print("] ")
 				fmt.Println(string("\033[0m"), res.Url)
 			}
+			fmt.Println()
 		} else if strings.HasPrefix(input, "show options") {
 			u.ShowOptions(searchTerm, pages)
+		} else if strings.HasPrefix(input, "set terms") {
+			searchTerm = strings.Join(args[2:], " ")
+			fmt.Printf("terms => %s\n", searchTerm)
+		} else {
+			printError("Unknown command.")
 		}
 
 	}
@@ -62,6 +73,7 @@ func scanner() {
 	fmt.Print(string(colorReset))
 	fmt.Print(string("\033[4m"), "search")
 	fmt.Print(string(colorReset), " > ")
+	fmt.Print(string("\033[33;1m"))
 }
 
 func printError(e string) {
