@@ -15,6 +15,7 @@ var (
 	searchTerm  string = "-"
 	pages       int    = 1
 	resultCount int    = 20
+	site        string = "-"
 )
 
 func main() {
@@ -40,10 +41,13 @@ func main() {
 				printError("Please provide a valid search term!")
 				continue
 			}
-
-			search()
+			keywords := searchTerm
+			if site != "-" {
+				keywords += fmt.Sprintf(" site:%s", site)
+			}
+			search(keywords)
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages, resultCount)
+			u.ShowOptions(searchTerm, pages, resultCount, site)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -63,7 +67,7 @@ func main() {
 			}
 			pages = converted
 			fmt.Printf("pages => %v\n", pages)
-		} else if strings.HasPrefix(input, "set count ") {
+		} else if strings.HasPrefix(input, "set count") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
 				continue
@@ -75,6 +79,17 @@ func main() {
 			}
 			resultCount = converted
 			fmt.Printf("count => %v\n", resultCount)
+		} else if strings.HasPrefix(input, "set site") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			if len(args[2]) < 5 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			site = args[2]
+			fmt.Printf("site => %v\n", site)
 		} else {
 			printError("Unknown command.")
 		}
@@ -99,8 +114,8 @@ func printError(e string) {
 	fmt.Println(string(colorReset), e)
 }
 
-func search() {
-	results, err := s.GoogleSearch(searchTerm, pages, resultCount)
+func search(keywords string) {
+	results, err := s.GoogleSearch(keywords, pages, resultCount)
 	if err != nil {
 		return
 	}
