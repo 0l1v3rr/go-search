@@ -19,14 +19,14 @@ type SearchResult struct {
 const domain = "https://www.google.com/search?q="
 const agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
 
-func buildURL(term string, pages int) []string {
+func buildURL(term string, pages int, resultCount int) []string {
 	urls := []string{}
 	term = strings.Trim(term, " ")
 	term = strings.Trim(term, "\n")
 	term = strings.Replace(term, " ", "+", -1)
 
 	for i := 0; i < pages; i++ {
-		resUrl := fmt.Sprintf("%s%s&num=%d&hl=%s&start=%d&filter=0", domain, term, 30, "en", i*20)
+		resUrl := fmt.Sprintf("%s%s&num=%d&hl=%s&start=%d&filter=0", domain, term, 30, "en", i*resultCount)
 		urls = append(urls, resUrl)
 	}
 	return urls
@@ -84,10 +84,10 @@ func parseResult(res *http.Response, counter int) ([]SearchResult, error) {
 	return results, err
 }
 
-func GoogleSearch(term string, pages int) ([]SearchResult, error) {
+func GoogleSearch(term string, pages int, resultCount int) ([]SearchResult, error) {
 	results := []SearchResult{}
 	resCount := 0
-	urls := buildURL(term, pages)
+	urls := buildURL(term, pages, resultCount)
 
 	for _, page := range urls {
 		res, err := scrapeRequest(page)

@@ -12,8 +12,9 @@ import (
 )
 
 var (
-	searchTerm string = "-"
-	pages      int    = 1
+	searchTerm  string = "-"
+	pages       int    = 1
+	resultCount int    = 20
 )
 
 func main() {
@@ -40,7 +41,7 @@ func main() {
 				continue
 			}
 
-			results, err := s.GoogleSearch(searchTerm, pages)
+			results, err := s.GoogleSearch(searchTerm, pages, resultCount)
 			if err != nil {
 				return
 			}
@@ -57,7 +58,7 @@ func main() {
 			}
 			fmt.Println()
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages)
+			u.ShowOptions(searchTerm, pages, resultCount)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -77,6 +78,18 @@ func main() {
 			}
 			pages = converted
 			fmt.Printf("pages => %v\n", pages)
+		} else if strings.HasPrefix(input, "set count ") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			converted, err := strconv.Atoi(args[2])
+			if err != nil {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			resultCount = converted
+			fmt.Printf("count => %v\n", resultCount)
 		} else {
 			printError("Unknown command.")
 		}
