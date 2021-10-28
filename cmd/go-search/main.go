@@ -117,6 +117,11 @@ func printError(e string) {
 func search(keywords string) {
 	results, err := s.GoogleSearch(keywords, pages, resultCount)
 	if err != nil {
+		printError("An unknown error occurred.")
+		return
+	}
+	if len(results) == 0 {
+		printError("Could not find any result. Try again with other keywords.")
 		return
 	}
 
@@ -149,6 +154,10 @@ func search(keywords string) {
 			fmt.Println()
 			return
 		}
+	}
+	if counter == 0 {
+		printError("Could not find any result. Try again with other keywords.")
+		return
 	}
 	fmt.Println()
 }
