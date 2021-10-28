@@ -41,22 +41,7 @@ func main() {
 				continue
 			}
 
-			results, err := s.GoogleSearch(searchTerm, pages, resultCount)
-			if err != nil {
-				return
-			}
-
-			fmt.Println()
-			for _, res := range results {
-				fmt.Print(string("\033[34;1m"), "[")
-				if res.Rank < 10 {
-					fmt.Print("0")
-				}
-				fmt.Print(res.Rank)
-				fmt.Print("] ")
-				fmt.Println(string("\033[0m"), res.Url)
-			}
-			fmt.Println()
+			search()
 		} else if strings.HasPrefix(input, "show options") {
 			u.ShowOptions(searchTerm, pages, resultCount)
 		} else if strings.HasPrefix(input, "set terms") {
@@ -112,4 +97,53 @@ func printError(e string) {
 
 	fmt.Print(string(colorRed), "[!]")
 	fmt.Println(string(colorReset), e)
+}
+
+func search() {
+	results, err := s.GoogleSearch(searchTerm, pages, resultCount)
+	if err != nil {
+		return
+	}
+
+	var links []string
+	color := "\033[34;1m"
+	counter := 0
+
+	fmt.Println()
+	for _, res := range results {
+		if contains(links, res.Url) {
+			continue
+		}
+		links = append(links, res.Url)
+		counter++
+
+		if strings.HasPrefix(res.Url, "https") {
+			color = "\033[34;1m"
+		} else {
+			color = "\033[31;1m"
+		}
+		fmt.Print(string(color), "[")
+		if counter < 10 {
+			fmt.Print("0")
+		}
+		fmt.Print(counter)
+		fmt.Print("] ")
+		fmt.Println(string("\033[0m"), res.Url)
+
+		if counter == resultCount {
+			fmt.Println()
+			return
+		}
+	}
+	fmt.Println()
+}
+
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+
+	return false
 }
