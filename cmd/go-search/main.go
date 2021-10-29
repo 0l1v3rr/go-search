@@ -94,6 +94,8 @@ func main() {
 			}
 			site = args[2]
 			fmt.Printf("site => %v\n", site)
+		} else if input == "" || input == " " || input == "  " {
+			continue
 		} else {
 			printError("Unknown command.")
 		}
