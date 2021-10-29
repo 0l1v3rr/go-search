@@ -37,6 +37,10 @@ func main() {
 		}
 
 		if strings.HasPrefix(input, "search") {
+			moreinfo := false
+			if strings.HasPrefix(input, "search -e") {
+				moreinfo = true
+			}
 			if searchTerm == "-" {
 				printError("Please provide a valid search term!")
 				continue
@@ -45,7 +49,7 @@ func main() {
 			if site != "-" {
 				keywords += fmt.Sprintf(" site:%s", site)
 			}
-			search(keywords)
+			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
 			u.ShowOptions(searchTerm, pages, resultCount, site)
 		} else if strings.HasPrefix(input, "set terms") {
@@ -114,7 +118,7 @@ func printError(e string) {
 	fmt.Println(string(colorReset), e)
 }
 
-func search(keywords string) {
+func search(keywords string, moreinfo bool) {
 	results, err := s.GoogleSearch(keywords, pages, resultCount)
 	if err != nil {
 		printError("An unknown error occurred.")
@@ -142,13 +146,26 @@ func search(keywords string) {
 		} else {
 			color = "\033[31;1m"
 		}
-		fmt.Print(string(color), "[")
-		if counter < 10 {
-			fmt.Print("0")
+
+		if moreinfo {
+			fmt.Print(string(color), "[#]")
+			fmt.Println(string("\033[0m"), counter)
+			fmt.Print(string(color), "[@]")
+			fmt.Println(string("\033[0m"), res.Url)
+			fmt.Print(string(color), "[!]")
+			fmt.Println(string("\033[0m"), res.Title)
+			fmt.Print(string(color), "[*]")
+			fmt.Println(string("\033[0m"), res.Description)
+			fmt.Println()
+		} else {
+			fmt.Print(string(color), "[")
+			if counter < 10 {
+				fmt.Print("0")
+			}
+			fmt.Print(counter)
+			fmt.Print("] ")
+			fmt.Println(string("\033[0m"), res.Url)
 		}
-		fmt.Print(counter)
-		fmt.Print("] ")
-		fmt.Println(string("\033[0m"), res.Url)
 
 		if counter == resultCount {
 			fmt.Println()

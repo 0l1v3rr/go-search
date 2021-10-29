@@ -64,12 +64,9 @@ func parseResult(res *http.Response, counter int) ([]SearchResult, error) {
 	counter++
 	for i := range sel.Nodes {
 		item := sel.Eq(i)
-		linkTag := item.Find("a")
-		link, _ := linkTag.Attr("href")
-		titleTag := item.Find("h3.r")
-		descTag := item.Find("span.st")
-		desc := descTag.Text()
-		title := titleTag.Text()
+		link, _ := item.Find("a").Attr("href")
+		desc := item.Find("span").Text()
+		title := item.Find("h3").Text()
 		link = strings.Trim(link, " ")
 
 		if link != "" && link != "#" && !strings.HasPrefix(link, "/") {
