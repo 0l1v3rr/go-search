@@ -28,22 +28,38 @@ func Motd() {
 
 func logo() {
 	//Doh
-	colorRed := "\033[31;1m"
 	fmt.Println("")
-	fmt.Println(string(colorRed), "         GGGGGGGGGGGGG    SSSSSSSSSSSSSSS ")
-	fmt.Println(string(colorRed), "      GGG::::::::::::G  SS:::::::::::::::S")
-	fmt.Println(string(colorRed), "    GG:::::::::::::::G S:::::SSSSSS::::::S")
-	fmt.Println(string(colorRed), "   G:::::GGGGGGGG::::G S:::::S     SSSSSSS")
-	fmt.Println(string(colorRed), "  G:::::G       GGGGGG S:::::S            ")
-	fmt.Println(string(colorRed), " G:::::G               S:::::S            ")
-	fmt.Println(string(colorRed), " G:::::G                S::::SSSS         ")
-	fmt.Println(string(colorRed), " G:::::G    GGGGGGGGGG   SS::::::SSSSS    ")
-	fmt.Println(string(colorRed), " G:::::G    G::::::::G     SSS::::::::SS  ")
-	fmt.Println(string(colorRed), " G:::::G    GGGGG::::G        SSSSSS::::S ")
-	fmt.Println(string(colorRed), " G:::::G        G::::G             S:::::S")
-	fmt.Println(string(colorRed), "  G:::::G       G::::G             S:::::S")
-	fmt.Println(string(colorRed), "   G:::::GGGGGGGG::::G SSSSSSS     S:::::S")
-	fmt.Println(string(colorRed), "    GG:::::::::::::::G S::::::SSSSSS:::::S")
-	fmt.Println(string(colorRed), "      GGG::::::GGG:::G S:::::::::::::::SS ")
-	fmt.Println(string(colorRed), "         GGGGGG   GGGG  SSSSSSSSSSSSSSS   ")
+	printLogoLine("         GGGGGGGGGGGGG    SSSSSSSSSSSSSSS ")
+	printLogoLine("      GGG::::::::::::G  SS:::::::::::::::S")
+	printLogoLine("    GG:::::::::::::::G S:::::SSSSSS::::::S")
+	printLogoLine("   G:::::GGGGGGGG::::G S:::::S     SSSSSSS")
+	printLogoLine("  G:::::G       GGGGGG S:::::S            ")
+	printLogoLine(" G:::::G               S:::::S            ")
+	printLogoLine(" G:::::G                S::::SSSS         ")
+	printLogoLine(" G:::::G    GGGGGGGGGG   SS::::::SSSSS    ")
+	printLogoLine(" G:::::G    G::::::::G     SSS::::::::SS  ")
+	printLogoLine(" G:::::G    GGGGG::::G        SSSSSS::::S ")
+	printLogoLine(" G:::::G        G::::G             S:::::S")
+	printLogoLine("  G:::::G       G::::G             S:::::S")
+	printLogoLine("   G:::::GGGGGGGG::::G SSSSSSS     S:::::S")
+	printLogoLine("    GG:::::::::::::::G S::::::SSSSSS:::::S")
+	printLogoLine("      GGG::::::GGG:::G S:::::::::::::::SS ")
+	printLogoLine("         GGGGGG   GGGG  SSSSSSSSSSSSSSS   ")
+}
+
+func printLogoLine(line string) {
+	colorRed := "\033[31;1m"
+	colorReset := "\033[0m"
+	bold := "\033[1m"
+
+	for _, char := range line {
+		if char == ':' {
+			fmt.Print(bold)
+			fmt.Print(string(colorReset), string(char))
+		} else {
+			fmt.Print(bold)
+			fmt.Print(string(colorRed), string(char))
+		}
+	}
+	fmt.Println()
 }

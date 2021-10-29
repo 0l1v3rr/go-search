@@ -53,7 +53,7 @@ func scrapeRequest(page string) (*http.Response, error) {
 }
 
 func parseResult(res *http.Response, counter int) ([]SearchResult, error) {
-	doc, err := goquery.NewDocumentFromResponse(res)
+	doc, err := goquery.NewDocumentFromReader(res.Body)
 
 	if err != nil {
 		return nil, err

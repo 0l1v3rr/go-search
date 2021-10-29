@@ -103,7 +103,7 @@ func scanner() {
 	fmt.Print(string(colorReset))
 	fmt.Print(string("\033[4m"), "search")
 	fmt.Print(string(colorReset), " > ")
-	fmt.Print(string("\033[33;1m"))
+	fmt.Print(string("\033[32;1m"))
 }
 
 func printError(e string) {

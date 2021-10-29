@@ -4,5 +4,5 @@ go 1.16
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
-	github.com/briandowns/spinner v1.16.0 // indirect
+	github.com/briandowns/spinner v1.16.0
 )
