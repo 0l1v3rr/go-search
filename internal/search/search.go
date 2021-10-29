@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/briandowns/spinner"
+
 	"github.com/PuerkitoBio/goquery"
 )
 
@@ -85,6 +87,11 @@ func parseResult(res *http.Response, counter int) ([]SearchResult, error) {
 }
 
 func GoogleSearch(term string, pages int, resultCount int) ([]SearchResult, error) {
+	s := spinner.New(spinner.CharSets[43], 150*time.Millisecond)
+	s.Suffix = " Searching..."
+	s.Color("green", "bold")
+	s.Start()
+
 	results := []SearchResult{}
 	resCount := 0
 	urls := buildURL(term, pages, resultCount)
@@ -102,6 +109,7 @@ func GoogleSearch(term string, pages int, resultCount int) ([]SearchResult, erro
 		results = append(results, data...)
 		time.Sleep(time.Duration(10) * time.Second)
 	}
+	s.Stop()
 
 	return results, nil
 }
