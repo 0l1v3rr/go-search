@@ -1,10 +1,10 @@
 # Go-Search
 
-This is a terminal app that can be used to search more effectively using the google search engine.<br>
+This is a terminal app that can be used to gather information more effectively using the google search engine.<br>
 You can search for specific keywords, file types, websites, etc.<br>
-There is an ability to limit or extend the search result.<br>
+There is an ability to limit or extend the search results.<br>
 This tool can be used to gather information about a target.<br>
-Please do not use it for illegal purposes.<br>
+Please do not use this for illegal purposes.<br>
 
 <hr>
 
@@ -37,8 +37,9 @@ make run
 
 <hr>
 
-## Commands
-- `show options`:Shows the options (see other commands there)
+## Important Commands
+- `show options`: Shows the options (see other commands there)
 - `search`: Runs the search
 - `search -e`: Runs the search and prints more information
+- `search -f`: Forces the app to run the search without search terms.
 - `exit`: Exits the app

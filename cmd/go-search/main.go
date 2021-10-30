@@ -33,21 +33,31 @@ func main() {
 		args := strings.Split(input, " ")
 
 		if strings.HasPrefix(input, "ex") {
+			fmt.Print(string("\033[0m"))
 			break
 		}
 
 		if strings.HasPrefix(input, "search") {
 			moreinfo := false
+			keywords := ""
+			if searchTerm != "-" {
+				keywords += searchTerm
+			}
+			if site != "-" {
+				keywords += fmt.Sprintf(" site:%s", site)
+			}
+
 			if strings.HasPrefix(input, "search -e") {
 				moreinfo = true
 			}
+			if strings.HasPrefix(input, "search -f") {
+				search(keywords, false)
+				continue
+			}
+
 			if searchTerm == "-" {
 				printError("Please provide a valid search term!")
 				continue
-			}
-			keywords := searchTerm
-			if site != "-" {
-				keywords += fmt.Sprintf(" site:%s", site)
 			}
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
