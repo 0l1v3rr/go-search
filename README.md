@@ -42,4 +42,6 @@ make run
 - `search`: Runs the search
 - `search -e`: Runs the search and prints more information
 - `search -f`: Forces the app to run the search without search terms.
+- `reset`: Sets the options to their default values.
+- `clear`: Clears the terminal.
 - `exit`: Exits the app

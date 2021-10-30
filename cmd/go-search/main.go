@@ -134,6 +134,8 @@ func main() {
 		} else if strings.HasPrefix(input, "clear") {
 			u.Clear()
 			continue
+		} else if strings.HasPrefix(input, "reset") {
+			reset()
 		} else if input == "" || input == " " || input == "  " {
 			continue
 		} else {
@@ -141,6 +143,15 @@ func main() {
 		}
 
 	}
+}
+
+func reset() {
+	searchTerm = "-"
+	pages = 1
+	resultCount = 20
+	site = "-"
+	filetype = "-"
+	showHttp = true
 }
 
 func scanner() {
