@@ -17,6 +17,7 @@ var (
 	resultCount int    = 20
 	site        string = "-"
 	filetype    string = "-"
+	showHttp    bool   = true
 )
 
 func main() {
@@ -65,7 +66,7 @@ func main() {
 			}
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages, resultCount, site, filetype)
+			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -115,6 +116,24 @@ func main() {
 			}
 			filetype = args[2]
 			fmt.Printf("filetype => %v\n", filetype)
+		} else if strings.HasPrefix(input, "set http") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			if args[2] != "true" && args[2] != "false" {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			if args[2] == "true" {
+				showHttp = true
+			} else {
+				showHttp = false
+			}
+			fmt.Printf("show http => %v\n", args[2])
+		} else if strings.HasPrefix(input, "clear") {
+			u.Clear()
+			continue
 		} else if input == "" || input == " " || input == "  " {
 			continue
 		} else {
@@ -158,6 +177,11 @@ func search(keywords string, moreinfo bool) {
 
 	fmt.Println()
 	for _, res := range results {
+		if !showHttp {
+			if strings.HasPrefix(res.Url, "http://") {
+				continue
+			}
+		}
 		if contains(links, res.Url) {
 			continue
 		}
