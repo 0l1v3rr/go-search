@@ -16,6 +16,7 @@ var (
 	pages       int    = 1
 	resultCount int    = 20
 	site        string = "-"
+	filetype    string = "-"
 )
 
 func main() {
@@ -46,6 +47,9 @@ func main() {
 			if site != "-" {
 				keywords += fmt.Sprintf(" site:%s", site)
 			}
+			if filetype != "-" {
+				keywords += fmt.Sprintf(" filetype:%s", filetype)
+			}
 
 			if strings.HasPrefix(input, "search -e") {
 				moreinfo = true
@@ -61,7 +65,7 @@ func main() {
 			}
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages, resultCount, site)
+			u.ShowOptions(searchTerm, pages, resultCount, site, filetype)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -104,6 +108,13 @@ func main() {
 			}
 			site = args[2]
 			fmt.Printf("site => %v\n", site)
+		} else if strings.HasPrefix(input, "set file") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			filetype = args[2]
+			fmt.Printf("filetype => %v\n", filetype)
 		} else if input == "" || input == " " || input == "  " {
 			continue
 		} else {

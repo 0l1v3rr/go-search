@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func ShowOptions(searchTerms string, pages int, resCount int, site string) {
+func ShowOptions(searchTerms string, pages int, resCount int, site string, filetype string) {
 	fmt.Println()
 	fmt.Println(" NAME         | REQUIRED | COMMAND            | VALUE")
 	fmt.Println(" -------------|----------|--------------------|------")
@@ -13,5 +13,6 @@ func ShowOptions(searchTerms string, pages int, resCount int, site string) {
 	fmt.Println(" pages        | yes      | set pages <page>   | " + strconv.Itoa(pages))
 	fmt.Println(" result count | yes      | set count <count>  | " + strconv.Itoa(resCount))
 	fmt.Println(" site         | no       | set site <website> | " + site)
+	fmt.Println(" filetype     | no       | set file <type>    | " + filetype)
 	fmt.Println()
 }
