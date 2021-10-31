@@ -96,10 +96,12 @@ func GoogleSearch(term string, pages int, resultCount int) ([]SearchResult, erro
 	for _, page := range urls {
 		res, err := scrapeRequest(page)
 		if err != nil {
+			s.Stop()
 			return nil, err
 		}
 		data, err := parseResult(res, resCount)
 		if err != nil {
+			s.Stop()
 			return nil, err
 		}
 		resCount += len(data)

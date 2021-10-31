@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func ShowOptions(searchTerms string, pages int, resCount int, site string, filetype string, showHttp bool) {
+func ShowOptions(searchTerms string, pages int, resCount int, site string, filetype string, showHttp bool, intitle string) {
 	http := "false"
 	if showHttp {
 		http = "true"
@@ -19,5 +19,6 @@ func ShowOptions(searchTerms string, pages int, resCount int, site string, filet
 	fmt.Println(" show http    | no       | set http <false>   | " + http)
 	fmt.Println(" site         | no       | set site <website> | " + site)
 	fmt.Println(" filetype     | no       | set file <type>    | " + filetype)
+	fmt.Println(" intitle      | no       | set intitle <word> | " + intitle)
 	fmt.Println()
 }

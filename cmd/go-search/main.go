@@ -18,6 +18,7 @@ var (
 	site        string = "-"
 	filetype    string = "-"
 	showHttp    bool   = true
+	intitle     string = "-"
 )
 
 func main() {
@@ -51,7 +52,14 @@ func main() {
 			if filetype != "-" {
 				keywords += fmt.Sprintf(" filetype:%s", filetype)
 			}
+			if intitle != "-" {
+				keywords += fmt.Sprintf(" intitle:%s", intitle)
+			}
 
+			if strings.HasPrefix(input, "search -ef") || strings.HasPrefix(input, "search -fe") {
+				search(keywords, true)
+				continue
+			}
 			if strings.HasPrefix(input, "search -e") {
 				moreinfo = true
 			}
@@ -66,7 +74,7 @@ func main() {
 			}
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp)
+			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp, intitle)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -116,6 +124,13 @@ func main() {
 			}
 			filetype = args[2]
 			fmt.Printf("filetype => %v\n", filetype)
+		} else if strings.HasPrefix(input, "set intitle") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			intitle = args[2]
+			fmt.Printf("intitle => %v\n", intitle)
 		} else if strings.HasPrefix(input, "set http") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -152,6 +167,7 @@ func reset() {
 	site = "-"
 	filetype = "-"
 	showHttp = true
+	intitle = "-"
 }
 
 func scanner() {
