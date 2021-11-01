@@ -21,6 +21,7 @@ var (
 	intitle     string = "-"
 	inurl       string = "-"
 	intext      string = "-"
+	related     string = "-"
 )
 
 func main() {
@@ -63,6 +64,9 @@ func main() {
 			if intext != "-" {
 				keywords += fmt.Sprintf(" intext:%s", intext)
 			}
+			if related != "-" {
+				keywords += fmt.Sprintf(" related:%s", related)
+			}
 
 			if strings.HasPrefix(input, "search -ef") || strings.HasPrefix(input, "search -fe") {
 				search(keywords, true)
@@ -82,7 +86,7 @@ func main() {
 			}
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp, intitle, inurl, intext)
+			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp, intitle, inurl, intext, related)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -153,6 +157,13 @@ func main() {
 			}
 			intext = args[2]
 			fmt.Printf("intext => %v\n", intext)
+		} else if strings.HasPrefix(input, "set related") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			related = args[2]
+			fmt.Printf("related => %v\n", related)
 		} else if strings.HasPrefix(input, "set http") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -192,6 +203,7 @@ func reset() {
 	intitle = "-"
 	inurl = "-"
 	intext = "-"
+	related = "-"
 }
 
 func scanner() {
