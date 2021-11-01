@@ -2,9 +2,10 @@
 
 This is a terminal app that can be used to gather information more effectively using the google search operators.<br>
 You can search for specific keywords, file types, websites, etc.<br>
-There is an ability to limit or extend the search results.<br>
 This tool can be used to gather information about a target.<br>
-Please do not use this for illegal purposes.<br>
+Please do not use this against anybody unless you have specific permission!<br>
+
+<img src=".github/pic.png" alt="Screenshot">
 
 <hr>
 
