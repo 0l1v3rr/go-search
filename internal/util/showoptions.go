@@ -5,10 +5,14 @@ import (
 	"strconv"
 )
 
-func ShowOptions(searchTerms string, pages int, resCount int, site string, filetype string, showHttp bool, intitle string, inurl string, intext string, related string) {
+func ShowOptions(searchTerms string, pages int, resCount int, site string, filetype string, showHttp bool, intitle string, inurl string, intext string, related string, saveResult bool) {
 	http := "false"
 	if showHttp {
 		http = "true"
+	}
+	save := "false"
+	if saveResult {
+		save = "true"
 	}
 	fmt.Println()
 	fmt.Println(" NAME         | REQUIRED | COMMAND            | VALUE")
@@ -23,5 +27,6 @@ func ShowOptions(searchTerms string, pages int, resCount int, site string, filet
 	fmt.Println(" inurl        | no       | set inurl <word>   | " + inurl)
 	fmt.Println(" intext       | no       | set intext <word>  | " + intext)
 	fmt.Println(" related      | no       | set related <site> | " + related)
+	fmt.Println(" save to txt  | yes      | set save <true>    | " + save)
 	fmt.Println()
 }

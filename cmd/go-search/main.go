@@ -22,6 +22,7 @@ var (
 	inurl       string = "-"
 	intext      string = "-"
 	related     string = "-"
+	save        bool   = false
 )
 
 func main() {
@@ -86,7 +87,7 @@ func main() {
 			}
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
-			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp, intitle, inurl, intext, related)
+			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp, intitle, inurl, intext, related, save)
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
@@ -179,6 +180,21 @@ func main() {
 				showHttp = false
 			}
 			fmt.Printf("show http => %v\n", args[2])
+		} else if strings.HasPrefix(input, "set save") {
+			if len(args) < 3 {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			if args[2] != "true" && args[2] != "false" {
+				printError("Please provide valid arguments!")
+				continue
+			}
+			if args[2] == "true" {
+				save = true
+			} else {
+				save = false
+			}
+			fmt.Printf("save to txt => %v\n", args[2])
 		} else if strings.HasPrefix(input, "clear") {
 			u.Clear()
 			continue
@@ -204,6 +220,7 @@ func reset() {
 	inurl = "-"
 	intext = "-"
 	related = "-"
+	save = false
 }
 
 func scanner() {
@@ -223,6 +240,14 @@ func printError(e string) {
 	fmt.Println(string(colorReset), e)
 }
 
+func printSuccess(s string) {
+	colorGreen := "\033[0m"
+	colorRed := "\033[32;1m"
+
+	fmt.Print(string(colorRed), "[^]")
+	fmt.Println(string(colorGreen), s)
+}
+
 func search(keywords string, moreinfo bool) {
 	results, err := s.GoogleSearch(keywords, pages, resultCount)
 	if err != nil {
@@ -232,6 +257,20 @@ func search(keywords string, moreinfo bool) {
 	if len(results) == 0 {
 		printError("Could not find any result. Try again with other keywords.")
 		return
+	}
+
+	if save {
+		f, err := os.Create("urls.txt")
+		if err != nil {
+			printError("An unknown error occurred.")
+			return
+		}
+		defer f.Close()
+		for _, res := range results {
+			if save {
+				f.WriteString(fmt.Sprintf("%v. %s\n", res.Rank, res.Url))
+			}
+		}
 	}
 
 	var links []string
@@ -278,6 +317,7 @@ func search(keywords string, moreinfo bool) {
 		}
 
 		if counter == resultCount {
+			printSuccess("The results have been saved to the urls.txt file!")
 			fmt.Println()
 			return
 		}
