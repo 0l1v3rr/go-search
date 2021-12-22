@@ -46,4 +46,5 @@ make run
 - `search -fe`: Forces the app to run the search without search terms and prints more information.
 - `reset`: Sets the options to their default values.
 - `clear`: Clears the terminal.
+- `rm`: Removes the urls.txt file.
 - `exit`: Exits the app.

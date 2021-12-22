@@ -88,6 +88,13 @@ func main() {
 			search(keywords, moreinfo)
 		} else if strings.HasPrefix(input, "show options") {
 			u.ShowOptions(searchTerm, pages, resultCount, site, filetype, showHttp, intitle, inurl, intext, related, save)
+		} else if strings.HasPrefix(input, "rm") {
+			err := os.Remove("urls.txt")
+			if err != nil {
+				printError("There's no urls.txt file to remove.")
+			} else {
+				printSuccess("The urls.txt file has been successfully removed!")
+			}
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
 				printError("Please provide valid arguments!")
