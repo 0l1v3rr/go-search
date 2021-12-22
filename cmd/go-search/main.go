@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
@@ -94,6 +95,22 @@ func main() {
 				printError("There's no urls.txt file to remove.")
 			} else {
 				printSuccess("The urls.txt file has been successfully removed!")
+			}
+		} else if strings.HasPrefix(input, "urls.txt") {
+			file, err := os.Open("urls.txt")
+			if err != nil {
+				printError("There's no urls.txt file.")
+			}
+			defer func() {
+				if err = file.Close(); err != nil {
+					printError("An unknown error occurred.")
+				}
+			}()
+
+			if err == nil {
+				b, _ := ioutil.ReadAll(file)
+				fmt.Print(string(b))
+				fmt.Println()
 			}
 		} else if strings.HasPrefix(input, "set terms") {
 			if len(args) < 3 {
