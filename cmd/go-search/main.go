@@ -316,7 +316,7 @@ func search(keywords string, moreinfo bool) {
 			fmt.Println(string("\033[0m"), res.Url)
 		}
 
-		if counter == resultCount {
+		if save && counter == resultCount {
 			printSuccess("The results have been saved to the urls.txt file!")
 			fmt.Println()
 			return
